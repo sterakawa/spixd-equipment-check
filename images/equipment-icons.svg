@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+<defs>
+<style>.i{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}</style>
+<symbol id="laptop" viewBox="0 0 48 48"><rect class="i" x="10" y="9" width="28" height="22" rx="2"/><path class="i" d="M6 36h36l-3 4H9z"/></symbol>
+<symbol id="receipt-printer" viewBox="0 0 48 48"><path class="i" d="M14 16V7h20v9M13 34H8V16h32v18h-5"/><path class="i" d="M14 27h20v14l-3-2-3 2-4-2-4 2-3-2-3 2zM15 21h2M20 21h13M19 31h10M19 35h13"/></symbol>
+<symbol id="qr-reader" viewBox="0 0 48 48"><path class="i" d="M13 8h22v27H13zM17 12h14v14H17zM18 39h12M24 35v4"/><path class="i" d="M20 15h3v3h-3zM26 15h2M20 21h2M26 21h3"/></symbol>
+<symbol id="usb" viewBox="0 0 48 48"><path class="i" d="M8 13h9v12H8zM11 9v4M14 9v4M17 19c15 0 8 18 23 18"/><path class="i" d="M36 33l4 4-4 4"/></symbol>
+<symbol id="router" viewBox="0 0 48 48"><rect class="i" x="8" y="25" width="32" height="13" rx="3"/><path class="i" d="M15 25V10M33 25V10M11 10h8M29 10h8M14 32h1M20 32h1M28 32h8"/></symbol>
+<symbol id="lan" viewBox="0 0 48 48"><path class="i" d="M8 14h12v10H8zM28 24h12v10H28zM12 14V9h4v5M32 34v5h4v-5M20 19c11 0 8 10 8 10"/></symbol>
+<symbol id="power" viewBox="0 0 48 48"><rect class="i" x="7" y="17" width="34" height="15" rx="4"/><circle class="i" cx="15" cy="24.5" r="3"/><circle class="i" cx="25" cy="24.5" r="3"/><path class="i" d="M41 25c5 0 2 10 6 10"/></symbol>
+<symbol id="roll" viewBox="0 0 48 48"><ellipse class="i" cx="22" cy="20" rx="13" ry="12"/><ellipse class="i" cx="22" cy="20" rx="5" ry="4"/><path class="i" d="M32 27c3 1 5 4 5 8v6H24v-6"/></symbol>
+<symbol id="usbc" viewBox="0 0 48 48"><path class="i" d="M8 24h14M26 18h10a6 6 0 010 12H26a6 6 0 010-12zM11 20v8M7 20v8"/></symbol>
+<symbol id="mouse" viewBox="0 0 48 48"><rect class="i" x="13" y="7" width="22" height="34" rx="11"/><path class="i" d="M24 7v11M13 19h22M24 12v3"/></symbol>
+<symbol id="starlink" viewBox="0 0 48 48"><path class="i" d="M11 17c12-9 23-7 30-2-7 10-18 14-30 8zM24 27v10M16 41h16M18 37h12"/><path class="i" d="M8 10c5-4 11-6 17-6"/></symbol>
+<symbol id="long-lan" viewBox="0 0 48 48"><path class="i" d="M8 12h9v8H8zM31 28h9v8h-9zM17 16c20 0-1 16 14 16"/><path class="i" d="M10 9v3M14 9v3M34 36v4M38 36v4"/></symbol>
+<symbol id="cable-ramp" viewBox="0 0 48 48"><path class="i" d="M5 34l8-20h22l8 20zM12 28h24M17 14l3 14M31 14l-3 14"/></symbol>
+<symbol id="stool" viewBox="0 0 48 48"><ellipse class="i" cx="24" cy="12" rx="13" ry="5"/><path class="i" d="M14 14l3 27M34 14l-3 27M17 29h14"/></symbol>
+<symbol id="booster" viewBox="0 0 48 48"><path class="i" d="M5 24h11M32 24h11M16 18h16v12H16zM9 20v8M39 20v8"/><path class="i" d="M21 22h6M24 19v6"/></symbol>
+<symbol id="monitor" viewBox="0 0 48 48"><rect class="i" x="6" y="7" width="36" height="26" rx="2"/><path class="i" d="M24 33v7M16 40h16M11 12h26v16H11z"/></symbol>
+<symbol id="photo-printer" viewBox="0 0 48 48"><path class="i" d="M12 15V7h24v8M12 35H7V15h34v20h-5"/><path class="i" d="M12 27h24v14H12zM16 37l6-6 4 4 3-3 4 5M34 21h2"/></symbol>
+<symbol id="plus" viewBox="0 0 48 48"><circle class="i" cx="24" cy="24" r="16"/><path class="i" d="M24 16v16M16 24h16"/></symbol>
+</defs>
+</svg>
