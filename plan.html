@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111827">
+  <title>SPIXD 撮影計画</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="app-header plan-header">
+    <p class="eyebrow">SPIXD EQUIPMENT</p>
+    <h1>撮影計画</h1>
+    <p>案件に必要な機材と数量を決め、積み込みチェックURLを作ります。</p>
+  </header>
+  <main>
+    <section class="card job-card plan-job-card">
+      <h2>案件情報</h2>
+      <label>イベント名<input id="planEvent" type="text" placeholder="例：○○フォトブース"></label>
+      <label>実施日<input id="planDate" type="date"></label>
+    </section>
+
+    <section class="section-heading">
+      <div><p class="step">01</p><h2>基本機材</h2></div>
+      <p>初期状態ではすべて選択されています</p>
+    </section>
+    <div id="planBasic" class="plan-list"></div>
+
+    <section class="section-heading special-heading">
+      <div><p class="step">02</p><h2>特別機材</h2></div>
+      <p>必要なものだけ選択します</p>
+    </section>
+    <div id="planSpecial" class="plan-list"></div>
+
+    <section class="card add-card">
+      <h2>今回だけの追加機材</h2>
+      <div class="add-row">
+        <input id="planCustomName" type="text" placeholder="機材名を入力">
+        <input id="planCustomQty" class="qty-input" type="number" value="1" min="1" max="99" aria-label="数量">
+        <button id="planAddCustom" type="button">追加</button>
+      </div>
+      <div id="planCustomList" class="custom-plan-list"></div>
+    </section>
+
+    <div class="progress-panel plan-actions">
+      <p id="planMessage" aria-live="polite"></p>
+      <button id="createChecklist" class="primary-button" type="button">チェックリストを作成</button>
+    </div>
+
+    <section id="generatedPlan" class="generated-plan" hidden>
+      <div class="checkmark">✓</div>
+      <h2>チェックリストを作成しました</h2>
+      <p>このURLを積み込み担当者へ共有してください。</p>
+      <a id="openChecklist" class="primary-link" href="#">チェックリストを開く</a>
+      <button id="copyChecklist" class="secondary-button" type="button">URLをコピー</button>
+    </section>
+  </main>
+  <script src="js/catalog.js"></script>
+  <script src="js/plan.js"></script>
+</body>
+</html>
