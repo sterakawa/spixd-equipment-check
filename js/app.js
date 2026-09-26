@@ -10,7 +10,23 @@ function decodePlan(){
     return JSON.parse(new TextDecoder().decode(bytes));
   }catch{return null}
 }
-const activePlan=decodePlan();
+function normalizePlan(raw){
+  if(!raw)return null;
+  if(raw.v!==2)return raw;
+  const master=[
+    ...catalog.basic.map(x=>({...x,group:"basic"})),
+    ...catalog.special.map(x=>({...x,group:"special"}))
+  ];
+  const items=(raw.i||[]).map(([id,qty])=>{
+    const source=master.find(x=>x.id===id);
+    return source?{...source,qty}:null;
+  }).filter(Boolean);
+  const custom=(raw.c||[]).map(([name,qty],index)=>({
+    id:"custom-"+index,name,qty,note:"今回だけの追加機材",icon:"plus",group:"custom"
+  }));
+  return {v:2,event:raw.e||"",date:raw.d||"",items:[...items,...custom],createdMinute:raw.t};
+}
+const activePlan=normalizePlan(decodePlan());
 const basicItems=activePlan?activePlan.items.filter(x=>x.group==="basic"):catalog.basic;
 const specialItems=activePlan?activePlan.items.filter(x=>x.group==="special"):catalog.special;
 let customItems=activePlan?activePlan.items.filter(x=>x.group==="custom"):[];
