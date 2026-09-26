@@ -1,24 +1,26 @@
 const basicItems=[
-  {name:"運用ノートPC",note:"本体・ACアダプター",icon:"laptop"},
-  {name:"レシートプリンター",note:"本体・電源ケーブル",icon:"receipt-printer"},
-  {name:"QRリーダー",note:"USB接続を確認",icon:"qr-reader"},
-  {name:"カメラ接続USB",note:"テザー撮影用",icon:"usb"},
-  {name:"ルーター",note:"電源・設定済み",icon:"router"},
-  {name:"LANケーブル",note:"必要な長さを確認",icon:"lan"},
-  {name:"AC延長・電源タップ",note:"会場電源用",icon:"power"},
-  {name:"予備レジロール",note:"残量も確認",icon:"roll"},
-  {name:"USB-Cケーブル",note:"充電・周辺機器用",icon:"usbc"},
-  {name:"マウス・予備電池",note:"小物ケースを確認",icon:"mouse"}
+  {name:"SPIXDノートPC",qty:2,note:"本体を2台確認",icon:"laptop"},
+  {name:"PC用ACアダプター",qty:2,note:"PC本体とは別に確認",icon:"power"},
+  {name:"レシートプリンター",qty:2,note:"本体を2台確認",icon:"receipt-printer"},
+  {name:"レシートプリンター ACアダプター",qty:2,note:"プリンター本体とは別に確認",icon:"power"},
+  {name:"ポケットWi-Fi",qty:2,note:"本体・充電状態を確認",icon:"router"},
+  {name:"プリンター USBケーブル",qty:1,note:"プリンター接続用",icon:"usb"},
+  {name:"カメラ USBケーブル",qty:1,note:"テザー撮影用",icon:"usb"},
+  {name:"AC電源コンセント",qty:1,note:"延長・電源タップ類",icon:"power"},
+  {name:"Wi-Fiルーター",qty:1,note:"電源・設定を確認",icon:"router"},
+  {name:"予備レシート",qty:1,note:"ロール紙の残量も確認",icon:"roll"},
+  {name:"マウスセット",qty:1,note:"マウス・予備電池",icon:"mouse"}
 ];
 const specialItems=[
-  {name:"Starlink",note:"会場回線がない場合",icon:"starlink"},
-  {name:"45m LANケーブル",note:"Starlink離隔設置用",icon:"long-lan"},
-  {name:"ケーブル保護モール",note:"通路を横切る場合",icon:"cable-ramp"},
-  {name:"丸椅子",note:"オペレーター用",icon:"stool"},
-  {name:"長距離USB・ブースター",note:"撮影距離が5mを超える場合",icon:"booster"},
-  {name:"サイネージPC・モニター",note:"写真表示案件",icon:"monitor"},
-  {name:"プリント用プリンター",note:"写真プリント案件",icon:"photo-printer"},
-  {name:"予備PC",note:"長時間・重要案件",icon:"laptop"}
+  {name:"QRリーダー",qty:1,note:"必要な案件のみ",icon:"qr-reader"},
+  {name:"Starlink",qty:1,note:"会場回線がない場合",icon:"starlink"},
+  {name:"45m LANケーブル",qty:1,note:"Starlink離隔設置用",icon:"long-lan"},
+  {name:"ケーブル保護モール",qty:1,note:"通路を横切る場合",icon:"cable-ramp"},
+  {name:"丸椅子",qty:1,note:"オペレーター用",icon:"stool"},
+  {name:"長距離USB・ブースター",qty:1,note:"撮影距離が5mを超える場合",icon:"booster"},
+  {name:"サイネージPC・モニター",qty:1,note:"写真表示案件",icon:"monitor"},
+  {name:"プリント用プリンター",qty:1,note:"写真プリント案件",icon:"photo-printer"},
+  {name:"予備PC",qty:1,note:"長時間・重要案件",icon:"laptop"}
 ];
 let customItems=[];
 const selections={};
@@ -27,9 +29,9 @@ const $=id=>document.getElementById(id);
 function itemId(group,index){return `${group}-${index}`}
 function renderItem(item,group,index,isCustom=false){
   const id=itemId(group,index);
-  return `<article class="equipment-item" data-item data-group="${group}" data-name="${escapeHtml(item.name)}">
+  return `<article class="equipment-item" data-item data-group="${group}" data-name="${escapeHtml(item.name)}" data-qty="${item.qty||1}">
     <div class="item-top"><div class="item-icon" aria-hidden="true"><svg><use href="images/equipment-icons.svg#${item.icon||"plus"}"></use></svg></div>
-      <div class="item-copy"><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.note||"今回追加した機材")}</p></div>
+      <div class="item-copy"><h3>${escapeHtml(item.name)} <span class="qty-badge">×${item.qty||1}</span></h3><p>${escapeHtml(item.note||"今回追加した機材")}</p></div>
       ${isCustom?`<button class="remove-button" type="button" data-remove="${index}">削除</button>`:""}
     </div>
     <div class="choices" role="radiogroup" aria-label="${escapeHtml(item.name)}">
@@ -64,7 +66,7 @@ function updateProgress(){
 $("addItem").addEventListener("click",()=>{
   const name=$("customItem").value.trim();
   if(!name)return;
-  customItems.push({name,note:"今回追加した機材",icon:"plus"});
+  customItems.push({name,qty:1,note:"今回追加した機材",icon:"plus"});
   $("customItem").value="";render();
   document.querySelectorAll("[data-group=custom]")[customItems.length-1]?.scrollIntoView({behavior:"smooth",block:"center"});
 });
@@ -78,7 +80,7 @@ $("submitButton").addEventListener("click",()=>{
   showResult(items,{eventName,staff,date});
 });
 function showResult(items,job){
-  const records=items.map(item=>({name:item.dataset.name,group:item.dataset.group,status:item.querySelector("input:checked").value}));
+  const records=items.map(item=>({name:item.dataset.name,qty:Number(item.dataset.qty||1),group:item.dataset.group,status:item.querySelector("input:checked").value}));
   $("resultEvent").textContent=job.eventName;$("resultStaff").textContent=job.staff;
   $("resultDate").textContent=new Intl.DateTimeFormat("ja-JP",{dateStyle:"long"}).format(new Date(job.date+"T00:00:00"));
   $("completedAt").textContent=new Intl.DateTimeFormat("ja-JP",{dateStyle:"long",timeStyle:"short"}).format(new Date());
@@ -86,7 +88,7 @@ function showResult(items,job){
   const groups=[["基本機材","basic"],["特別機材","special"],["今回だけの追加機材","custom"]];
   $("resultLists").innerHTML=groups.map(([title,key])=>{
     const rows=records.filter(r=>r.group===key);if(!rows.length)return "";
-    return `<section class="result-section"><h2>${title}</h2>${rows.map(r=>`<div class="result-row"><span>${escapeHtml(r.name)}</span><span class="status status-${r.status}">${statusLabels[r.status]}</span></div>`).join("")}</section>`;
+    return `<section class="result-section"><h2>${title}</h2>${rows.map(r=>`<div class="result-row"><span>${escapeHtml(r.name)} <b class="result-qty">×${r.qty}</b></span><span class="status status-${r.status}">${statusLabels[r.status]}</span></div>`).join("")}</section>`;
   }).join("");
   $("checkView").hidden=true;$("resultView").hidden=false;scrollTo({top:0,behavior:"smooth"});
 }
