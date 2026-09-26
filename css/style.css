@@ -16,3 +16,11 @@ input{width:100%;min-height:46px;border:1px solid #d0d5dd;border-radius:10px;pad
 .result-section{margin-top:18px}.result-section h2{font-size:15px;margin:0 0 8px}.result-row{display:flex;justify-content:space-between;gap:12px;padding:10px 2px;border-bottom:1px solid var(--line);font-size:13px}.status{font-weight:800;white-space:nowrap}.status-bring{color:var(--green)}.status-client{color:var(--blue)}.status-skip{color:var(--gray)}.screenshot-note{text-align:center;color:var(--muted);font-size:12px;margin:25px 0 0}
 @media(min-width:640px){.app-header{text-align:center}.app-header>p:last-child{margin:8px auto 0}main{padding:28px}.job-card{grid-template-columns:2fr 1fr 1fr}.job-card h2{grid-column:1/-1}.progress-panel{margin-left:0;margin-right:0;border:1px solid var(--line);border-radius:16px;bottom:14px}.equipment-list{grid-template-columns:repeat(2,1fr)}}
 @media print{.secondary-button,.screenshot-note{display:none}.result-view{padding:0}.card{box-shadow:none}}
+.qty-badge{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:22px;margin-left:4px;padding:0 7px;border-radius:999px;background:#111827;color:#fff;font-size:11px;vertical-align:2px}
+.result-card{overflow:hidden;background:#fff;border:1px solid #d0d5dd;border-radius:18px;box-shadow:0 12px 30px rgba(17,24,39,.10);padding:20px}
+.document-label{margin:-20px -20px 0;padding:12px 18px;background:#111827;color:#fff;font-size:10px;font-weight:800;letter-spacing:.09em}
+.result-card .completion{padding-top:26px}.result-card .summary-card{box-shadow:none;border-radius:13px;background:#f8fafc}
+.result-card .result-section{break-inside:avoid}.result-qty{display:inline-block;color:#344054;font-size:11px}
+.card-footer{margin:24px -20px -20px;padding:12px 18px;border-top:1px solid #e5e7eb;color:#98a2b3;font-size:9px;text-align:right;letter-spacing:.04em}
+@media(max-width:420px){.result-card{padding:14px;border-radius:12px}.document-label{margin:-14px -14px 0}.card-footer{margin:20px -14px -14px}.result-row{font-size:12px}.result-section h2{padding-top:2px}.summary-card{padding:14px}}
+@media print{body{background:#fff}.result-card{border:0;box-shadow:none}.document-label{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
