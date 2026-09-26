@@ -19,7 +19,7 @@ const specialItems=[
   {name:"丸椅子",qty:1,note:"オペレーター用",icon:"stool"},
   {name:"長距離USB・ブースター",qty:1,note:"撮影距離が5mを超える場合",icon:"booster"},
   {name:"サイネージPC・モニター",qty:1,note:"写真表示案件",icon:"monitor"},
-  {name:"プリント用プリンター",qty:1,note:"写真プリント案件",icon:"photo-printer"},
+  {name:"写真用プリンター",qty:1,note:"写真プリント案件",icon:"photo-printer"},
   {name:"予備PC",qty:1,note:"長時間・重要案件",icon:"laptop"}
 ];
 let customItems=[];
