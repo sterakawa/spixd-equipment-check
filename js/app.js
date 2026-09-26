@@ -3,7 +3,9 @@ function decodePlan(){
   const value=new URLSearchParams(location.hash.slice(1)).get("plan");
   if(!value)return null;
   try{
-    const binary=atob(value.replace(/-/g,"+").replace(/_/g,"/"));
+    let normalized=value.replace(/-/g,"+").replace(/_/g,"/");
+    normalized+="=".repeat((4-normalized.length%4)%4);
+    const binary=atob(normalized);
     const bytes=Uint8Array.from(binary,c=>c.charCodeAt(0));
     return JSON.parse(new TextDecoder().decode(bytes));
   }catch{return null}
