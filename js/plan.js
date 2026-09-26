@@ -51,7 +51,14 @@ $("createChecklist").addEventListener("click",()=>{
   });
   const items=[...selected,...planCustom];
   if(!items.length){$("planMessage").textContent="機材を1点以上選択してください。";return}
-  const payload={v:1,event,date,items,created:new Date().toISOString()};
+  const payload={
+    v:2,
+    e:event,
+    d:date,
+    i:selected.map(x=>[x.id,x.qty]),
+    c:planCustom.map(x=>[x.name,x.qty]),
+    t:Math.floor(Date.now()/60000)
+  };
   const base=new URL("index.html",location.href);
   base.hash="plan="+encodePlan(payload);
   $("openChecklist").href=base.href;
