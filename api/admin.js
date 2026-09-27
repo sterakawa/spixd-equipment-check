@@ -2,7 +2,7 @@ const crypto=require("crypto");
 const SUPABASE_URL="https://alzzxqfszlytldqinpdv.supabase.co";
 
 function authorized(req){
-  const expected=process.env.ADMIN_PASSWORD||"";
+  const expected=process.env.ADMIN_ACCESS_TOKEN||"";
   const supplied=String(req.headers.authorization||"").replace(/^Bearer\s+/i,"");
   if(!expected||!supplied)return false;
   const a=Buffer.from(expected),b=Buffer.from(supplied);
@@ -33,7 +33,7 @@ function cleanItem(input){
 }
 module.exports=async function handler(req,res){
   res.setHeader("Cache-Control","no-store");
-  if(!process.env.ADMIN_PASSWORD||!process.env.SUPABASE_SERVICE_ROLE_KEY)return res.status(503).json({error:"管理画面の環境変数が未設定です。"});
+  if(!process.env.ADMIN_ACCESS_TOKEN||!process.env.SUPABASE_SERVICE_ROLE_KEY)return res.status(503).json({error:"管理画面の環境変数が未設定です。"});
   if(!authorized(req))return res.status(401).json({error:"パスワードが違います。"});
   try{
     if(req.method==="GET"){
