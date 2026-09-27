@@ -26,7 +26,7 @@ function normalizePlan(raw){
   }));
   return {v:2,event:raw.e||"",date:raw.d||"",items:[...items,...custom],createdMinute:raw.t};
 }
-const activePlan=normalizePlan(decodePlan());
+const activePlan=window.DATABASE_PLAN||normalizePlan(decodePlan());
 const basicItems=activePlan?activePlan.items.filter(x=>x.group==="basic"):catalog.basic;
 const specialItems=activePlan?activePlan.items.filter(x=>x.group==="special"):catalog.special;
 let customItems=activePlan?activePlan.items.filter(x=>x.group==="custom"):[];
