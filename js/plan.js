@@ -2,11 +2,9 @@ const catalog=window.EQUIPMENT_CATALOG;
 let planCustom=[];
 const $=id=>document.getElementById(id);
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
-function planRow(item,group,index,checked){
+function planRow(item,group,checked){
   return `<article class="plan-item" data-plan-item data-id="${item.id}" data-group="${group}">
-    <label class="plan-select">
-      <input type="checkbox" ${checked?"checked":""}>
-      <span class="plan-check">✓</span>
+    <label class="plan-select"><input type="checkbox" ${checked?"checked":""}><span class="plan-check">✓</span>
       <span class="item-icon"><svg><use href="images/equipment-icons.svg#${item.icon}"></use></svg></span>
       <span class="plan-copy"><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.note)}</small></span>
     </label>
@@ -14,20 +12,17 @@ function planRow(item,group,index,checked){
   </article>`;
 }
 function renderCatalog(){
-  $("planBasic").innerHTML=catalog.basic.map((x,i)=>planRow(x,"basic",i,true)).join("");
-  $("planSpecial").innerHTML=catalog.special.map((x,i)=>planRow(x,"special",i,false)).join("");
-  bindQuantity();
-}
-function renderCustom(){
-  $("planCustomList").innerHTML=planCustom.map((x,i)=>`<div class="custom-plan-row"><span>${escapeHtml(x.name)}</span><b>×${x.qty}</b><button type="button" data-custom-remove="${i}">削除</button></div>`).join("");
-  document.querySelectorAll("[data-custom-remove]").forEach(btn=>btn.addEventListener("click",()=>{planCustom.splice(Number(btn.dataset.customRemove),1);renderCustom()}));
-}
-function bindQuantity(){
+  $("planBasic").innerHTML=catalog.basic.map(x=>planRow(x,"basic",true)).join("");
+  $("planSpecial").innerHTML=catalog.special.map(x=>planRow(x,"special",false)).join("");
   document.querySelectorAll("[data-plan-item]").forEach(row=>{
     const input=row.querySelector('input[type="number"]');
     row.querySelector("[data-minus]").addEventListener("click",()=>input.value=Math.max(1,Number(input.value)-1));
     row.querySelector("[data-plus]").addEventListener("click",()=>input.value=Math.min(99,Number(input.value)+1));
   });
+}
+function renderCustom(){
+  $("planCustomList").innerHTML=planCustom.map((x,i)=>`<div class="custom-plan-row"><span>${escapeHtml(x.name)}</span><b>×${x.qty}</b><button type="button" data-custom-remove="${i}">削除</button></div>`).join("");
+  document.querySelectorAll("[data-custom-remove]").forEach(btn=>btn.addEventListener("click",()=>{planCustom.splice(Number(btn.dataset.customRemove),1);renderCustom()}));
 }
 $("planAddCustom").addEventListener("click",()=>{
   const name=$("planCustomName").value.trim(),qty=Math.max(1,Number($("planCustomQty").value)||1);
@@ -36,12 +31,8 @@ $("planAddCustom").addEventListener("click",()=>{
   $("planCustomName").value="";$("planCustomQty").value=1;renderCustom();
 });
 $("planCustomName").addEventListener("keydown",e=>{if(e.key==="Enter")$("planAddCustom").click()});
-function encodePlan(data){
-  const bytes=new TextEncoder().encode(JSON.stringify(data));
-  let binary="";bytes.forEach(b=>binary+=String.fromCharCode(b));
-  return btoa(binary).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
-}
-$("createChecklist").addEventListener("click",()=>{
+
+$("createChecklist").addEventListener("click",async()=>{
   const event=$("planEvent").value.trim(),date=$("planDate").value;
   if(!event||!date){$("planMessage").textContent="イベント名と実施日を入力してください。";return}
   const selected=[...document.querySelectorAll("[data-plan-item]")].filter(row=>row.querySelector('input[type="checkbox"]').checked).map(row=>{
@@ -51,20 +42,23 @@ $("createChecklist").addEventListener("click",()=>{
   });
   const items=[...selected,...planCustom];
   if(!items.length){$("planMessage").textContent="機材を1点以上選択してください。";return}
-  const payload={
-    v:2,
-    e:event,
-    d:date,
-    i:selected.map(x=>[x.id,x.qty]),
-    c:planCustom.map(x=>[x.name,x.qty]),
-    t:Math.floor(Date.now()/60000)
-  };
-  const base=new URL("index.html",location.href);
-  base.hash="plan="+encodePlan(payload);
-  $("openChecklist").href=base.href;
-  $("generatedPlan").hidden=false;
-  $("planMessage").textContent=`${items.length}種類の機材を選択しました。`;
-  $("generatedPlan").scrollIntoView({behavior:"smooth",block:"center"});
+  if(!window.SupabasePlans?.ready()){$("planMessage").textContent="データベースの接続設定を確認してください。";return}
+
+  const button=$("createChecklist");
+  button.disabled=true;button.textContent="保存しています…";
+  $("planMessage").textContent="撮影計画をデータベースへ保存しています。";
+  try{
+    const publicId=await window.SupabasePlans.createPlan({eventName:event,eventDate:date,items});
+    const url=new URL("index.html",location.href);
+    url.searchParams.set("plan",publicId);
+    $("openChecklist").href=url.href;
+    $("generatedPlan").hidden=false;
+    $("planMessage").textContent=`${items.length}種類の機材を保存しました。`;
+    $("generatedPlan").scrollIntoView({behavior:"smooth",block:"center"});
+  }catch(error){
+    console.error(error);
+    $("planMessage").textContent="保存できませんでした。Supabaseの権限設定を確認してください。";
+  }finally{button.disabled=false;button.textContent="チェックリストを作成"}
 });
 $("copyChecklist").addEventListener("click",async()=>{
   const url=$("openChecklist").href;
