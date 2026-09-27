@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#111827">
   <title>SPIXD 機材管理</title>
   <link rel="stylesheet" href="css/style.css?v=20260927-4">
-  <link rel="stylesheet" href="css/admin.css?v=20260927-1">
+  <link rel="stylesheet" href="css/admin.css?v=20260928-1">
 </head>
 <body>
   <header class="app-header plan-header">
@@ -35,8 +35,8 @@
           <label class="wide">確認メモ<input id="newNote" type="text" placeholder="例：本体・バッテリーを確認"></label>
           <label>標準数量<input id="newQty" type="number" min="1" max="99" value="1"></label>
           <label>表示順<input id="newOrder" type="number" value="210"></label>
-          <label>アイコンID<input id="newIcon" type="text" value="plus"></label>
           <label class="check-label"><input id="newSelected" type="checkbox"> 初期選択する</label>
+          <div class="wide icon-field"><span class="field-label">アイコン</span><div id="newIconPicker"></div><input id="newIcon" type="hidden" value="plus"></div>
         </div>
         <button id="addEquipment" class="primary-button" type="button">機材を追加</button>
         <p id="formMessage" class="admin-message" aria-live="polite"></p>
@@ -61,6 +61,6 @@
       </section>
     </div>
   </main>
-  <script src="js/admin.js?v=20260927-2"></script>
+  <script src="js/admin.js?v=20260928-1"></script>
 </body>
 </html>
