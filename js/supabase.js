@@ -1,7 +1,7 @@
 (function () {
   const runtimeConfig = window.SUPABASE_CONFIG || {};
   const config = {
-    url: runtimeConfig.url || "https://alzzxqfszlytdqinpndv.supabase.co",
+    url: runtimeConfig.url || "https://alzzxqfszlytldqinpdv.supabase.co",
     key: runtimeConfig.key || "sb_publishable_Vl_IN3k48Bt65p5xlrpD4w_b9E48Krz"
   };
 
