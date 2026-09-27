@@ -1,5 +1,7 @@
 const $=id=>document.getElementById(id);
-const urlToken=new URLSearchParams(location.hash.slice(1)).get("access")||"";\nlet adminPassword=urlToken||sessionStorage.getItem("spixd-admin-token")||"";\nif(urlToken)sessionStorage.setItem("spixd-admin-token",urlToken);
+const urlToken=new URLSearchParams(location.hash.slice(1)).get("access")||"";
+let adminPassword=urlToken||sessionStorage.getItem("spixd-admin-token")||"";
+if(urlToken)sessionStorage.setItem("spixd-admin-token",urlToken);
 let categories=[],items=[];
 
 async function api(method,body){
