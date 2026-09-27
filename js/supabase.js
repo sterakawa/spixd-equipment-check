@@ -1,5 +1,9 @@
 (function () {
-  const config = window.SUPABASE_CONFIG || {\n    url: "https://alzzxqfszlytdqinpvdv.supabase.co",\n    key: "sb_publishable_Vl_IN3k48Bt65p5xlrpD4w_b9E48Krz"\n  };
+  const runtimeConfig = window.SUPABASE_CONFIG || {};
+  const config = {
+    url: runtimeConfig.url || "https://alzzxqfszlytdqinpvdv.supabase.co",
+    key: runtimeConfig.key || "sb_publishable_Vl_IN3k48Bt65p5xlrpD4w_b9E48Krz"
+  };
 
   function ready() {
     return Boolean(config.url && config.key);
