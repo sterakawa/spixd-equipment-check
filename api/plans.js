@@ -1,4 +1,4 @@
-const SUPABASE_URL=process.env.VITE_SUPABASE_URL||"https://alzzxqfszlytdqinpvdv.supabase.co";
+const SUPABASE_URL="https://alzzxqfszlytdqinpndv.supabase.co";
 const SUPABASE_KEY=process.env.VITE_SUPABASE_PUBLISHABLE_KEY||"sb_publishable_Vl_IN3k48Bt65p5xlrpD4w_b9E48Krz";
 const headers={apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY,"Content-Type":"application/json"};
 
