@@ -1,24 +1,8 @@
-const SUPABASE_URL="https://alzzxqfszlytdqinpvdv.supabase.co";
-const SUPABASE_KEY="sb_publishable_Vl_IN3k48Bt65p5xlrpD4w_b9E48Krz";
-async function supabaseRequest(path,options={}){
-  const response=await fetch(SUPABASE_URL+"/rest/v1/"+path,{
-    ...options,
-    headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY,"Content-Type":"application/json",...(options.headers||{})}
-  });
-  if(!response.ok)throw new Error(await response.text()||("Supabase error: "+response.status));
-  return response.status===204?null:response.json();
-}
-async function savePlanToDatabase({eventName,eventDate,items}){
-  const plans=await supabaseRequest("plans?select=id,public_id",{method:"POST",headers:{Prefer:"return=representation"},body:JSON.stringify({event_name:eventName,event_date:eventDate,status:"issued"})});
-  const plan=plans&&plans[0];
-  if(!plan)throw new Error("計画IDを取得できませんでした。");
-  const rows=items.map((item,index)=>({
-    plan_id:plan.id,equipment_id:item.group==="custom"?null:item.id,category_id:item.group,
-    category_name:item.group==="basic"?"基本機材":item.group==="special"?"特別機材":"今回だけの追加機材",
-    item_name:item.name,note:item.note||"",icon:item.icon||"plus",quantity:item.qty||1,sort_order:index+1
-  }));
-  await supabaseRequest("plan_items",{method:"POST",headers:{Prefer:"return=minimal"},body:JSON.stringify(rows)});
-  return plan.public_id;
+async function savePlanToDatabase(payload){
+  const response=await fetch("/api/plans",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+  if(!response.ok)throw new Error(await response.text()||("API error: "+response.status));
+  const result=await response.json();
+  return result.publicId;
 }
 const catalog=window.EQUIPMENT_CATALOG;
 let planCustom=[];
