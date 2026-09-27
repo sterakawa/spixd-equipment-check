@@ -40,6 +40,6 @@ module.exports=async function handler(req,res){
     return res.status(405).json({error:"method not allowed"});
   }catch(error){
     console.error(error);
-    return res.status(500).json({error:"database request failed",detail:error.message,cause:error.cause?.message||error.cause?.code||null,url:SUPABASE_URL});
+    return res.status(500).json({error:"database request failed"});
   }
 };
