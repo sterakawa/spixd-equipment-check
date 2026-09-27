@@ -64,7 +64,6 @@ $("createChecklist").addEventListener("click",async()=>{
   });
   const items=[...selected,...planCustom];
   if(!items.length){$("planMessage").textContent="機材を1点以上選択してください。";return}
-  if(!window.SupabasePlans?.ready()){$("planMessage").textContent="データベースの接続設定を確認してください。";return}
 
   const button=$("createChecklist");
   button.disabled=true;button.textContent="保存しています…";
