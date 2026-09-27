@@ -1,5 +1,5 @@
 const $=id=>document.getElementById(id);
-let adminPassword=sessionStorage.getItem("spixd-admin-password")||"";
+const urlToken=new URLSearchParams(location.hash.slice(1)).get("access")||"";\nlet adminPassword=urlToken||sessionStorage.getItem("spixd-admin-token")||"";\nif(urlToken)sessionStorage.setItem("spixd-admin-token",urlToken);
 let categories=[],items=[];
 
 async function api(method,body){
@@ -46,9 +46,7 @@ async function saveItem(row){
   try{const updated=await api("PATCH",{id:row.dataset.adminItem,item:valuesFrom(row)});const index=items.findIndex(x=>x.id===updated.id);if(index>=0)items[index]=updated;status.textContent="保存しました"}
   catch(error){status.textContent=error.message}finally{button.disabled=false}
 }
-$("loginButton").addEventListener("click",async()=>{adminPassword=$("adminPassword").value;$("loginMessage").textContent="確認しています…";try{await load();sessionStorage.setItem("spixd-admin-password",adminPassword);$("loginMessage").textContent=""}catch(error){$("loginMessage").textContent=error.message}});
-$("adminPassword").addEventListener("keydown",e=>{if(e.key==="Enter")$("loginButton").click()});
-$("logoutButton").addEventListener("click",()=>{sessionStorage.removeItem("spixd-admin-password");location.reload()});
+$("logoutButton").addEventListener("click",()=>{sessionStorage.removeItem("spixd-admin-token");location.href="admin.html"});
 $("addEquipment").addEventListener("click",async()=>{
   const item={category_id:$("newCategory").value,name:$("newName").value.trim(),note:$("newNote").value.trim(),icon:$("newIcon").value.trim()||"plus",default_quantity:Number($("newQty").value)||1,sort_order:Number($("newOrder").value)||0,default_selected:$("newSelected").checked,enabled:true};
   if(!item.name){$("formMessage").textContent="機材名を入力してください。";return}
@@ -59,4 +57,4 @@ $("addCategory").addEventListener("click",async()=>{
   const category={id:$("categoryId").value,name:$("categoryName").value,description:$("categoryDescription").value,sort_order:Number($("categoryOrder").value)||0};
   try{const created=await api("POST",{action:"createCategory",category});categories.push({...created,...category,enabled:true});categories.sort((a,b)=>a.sort_order-b.sort_order);render();$("formMessage").textContent="カテゴリーを追加しました。"}catch(error){$("formMessage").textContent=error.message}
 });
-if(adminPassword){load().catch(()=>sessionStorage.removeItem("spixd-admin-password"))}
+if(adminPassword){load().catch(error=>{$("loginMessage").textContent=error.message;sessionStorage.removeItem("spixd-admin-token")})}else{$("loginMessage").textContent="専用URLからアクセスしてください。"}
