@@ -1,0 +1,14 @@
+services:
+  equipment-check:
+    build: .
+    restart: unless-stopped
+    environment:
+      PORT: "3000"
+      VITE_SUPABASE_URL: "${VITE_SUPABASE_URL:-}"
+      VITE_SUPABASE_PUBLISHABLE_KEY: "${VITE_SUPABASE_PUBLISHABLE_KEY:-}"
+      SUPABASE_SERVICE_ROLE_KEY: "${SUPABASE_SERVICE_ROLE_KEY:-}"
+      ADMIN_ACCESS_TOKEN: "${ADMIN_ACCESS_TOKEN:-}"
+    ports:
+      - "127.0.0.1:8081:3000"
+    security_opt:
+      - no-new-privileges:true
